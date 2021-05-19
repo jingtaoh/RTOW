@@ -6,13 +6,6 @@
 #include "camera.h"
 
 #include <iostream>
-vec3 random_in_unit_sphere() {
-    while (true) {
-        auto p = vec3::random(-1,1);
-        if (p.length_squared() >= 1) continue;
-        return p;
-    }
-}
 
 color ray_color(const ray& r, const hittable& world, int depth) {
     hit_record rec;
@@ -22,7 +15,7 @@ color ray_color(const ray& r, const hittable& world, int depth) {
         return color(0, 0, 0);
 
     if (world.hit(r, 0.001, infinity, rec)) {
-        point3 target = rec.p + rec.normal + random_in_unit_sphere();
+        point3 target = rec.p + rec.normal + random_unit_vector();
         return 0.5 * ray_color(ray(rec.p, target - rec.p), world, depth - 1);
     }
 
